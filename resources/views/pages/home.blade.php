@@ -73,7 +73,7 @@
                                                     </p>
                                                 </div>
                                                 <div class="single-item-caption">
-                                                    <a class="add-to-cart pull-left" href="shopping"><i
+                                                    <a class="add-to-cart pull-left" href="session-cart/{{$prn->id}}"><i
                                                                 class="fa fa-shopping-cart"></i></a>
                                                     <a class="beta-btn primary" href="product/{{$prn->id}}">Details <i
                                                                 class="fa fa-chevron-right"></i></a>
@@ -119,7 +119,7 @@
                                                 </p>
                                             </div>
                                             <div class="single-item-caption">
-                                                <a class="add-to-cart pull-left" href="shopping"><i
+                                                <a class="add-to-cart pull-left" href="session-cart/{{$pra->id}}"><i
                                                             class="fa fa-shopping-cart"></i></a>
                                                 <a class="beta-btn primary" href="product/{{$pra->id}}">Details <i
                                                             class="fa fa-chevron-right"></i></a>

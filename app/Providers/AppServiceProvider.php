@@ -15,7 +15,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
+        if(Session('cart'))
+        {
+            $oldCart = Session::get('cart');
+            $cart = new Cart($oldCard);
+        }else
+        {
+            $cart = null;
+        }
+        view()->share('cart',$cart);
     }
 
     /**

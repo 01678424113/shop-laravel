@@ -4,13 +4,19 @@ namespace App\Http\Controllers;
 use App\Slide;
 use App\Product;
 use App\Type_product;
+use App\User;
+use Session;
+use App\Cart;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
     public function __construct()
     {
+
         $type_product = Type_product::all();
+
         view()->share('type_product',$type_product);
     }
     public function getHome()
@@ -27,9 +33,60 @@ class PageController extends Controller
         return view('pages.login');
     }
 
+    public function postLogin(Request $request)
+    {
+        if(Auth::attempt(['email'=>$request->email,'password'=>$request->password]))
+        {
+            return redirect('/');
+        }else
+        {
+            return redirect('login')->with('thongbao','Đăng nhập không thành công');
+        }
+    }
+
+    public function getLogout()
+    {
+        Auth::logout();
+        return redirect('/');
+    }
+
+
     public function getSignup()
     {
         return view('pages.signup');
+    }
+
+    public function postSignup(Request $request)
+    {
+        $this->validate($request,
+            [
+                'full_name'=>'required|min:5',
+                'email'=>'required|email|unique:users,email',
+                'password'=>'required|min:5',
+                'passwordAgain'=>'same:password',
+                'phone'=>'required',
+                'address'=>'required'
+            ],
+            [
+                'full_name.required'=>'Chưa nhập tên',
+                'full_name.min'=>'Tên phải dài trên 5 kí tự',
+                'email.required'=>'Chưa nhập email',
+                'email.email'=>'Email không hợp lệ',
+                'email.unique'=>'Email đã tồn tại',
+                'password'=>'Chưa nhập pass',
+                'password.min'=>'Pass phải dài trên 5 kí tự',
+                'passwordAgain'=>'Pass nhập lại chưa đúng',
+                'phone.required'=>'Chưa nhập số điện thoại',
+                'address.required'=>'Chưa nhập địa chỉ'
+            ]);
+        $user = new User;
+        $user->full_name = $request->full_name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->save();
+        return redirect('sign')->with('thongbao','Đăng kí thành công');
     }
 
 
@@ -70,5 +127,16 @@ class PageController extends Controller
     public function getShopping()
     {
         return view('pages.shopping');
+    }
+
+    public function getSession($id)
+    {
+        $product = Product::find($id);
+        $oldCard = Session('cart')?Session::get('cart'):null;
+        $cart = new Cart($oldCard);
+        $cart->add($product, $id);
+        session()->put('cart',$cart);
+
+        return redirect()->back();
     }
 }

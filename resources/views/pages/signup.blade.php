@@ -2,12 +2,24 @@
 @section('content')
     <div class="inner-header">
         <div class="container">
+            @if(session('thongbao'))
+                <div class="alert alert-success">
+                    {{session('thongbao')}}
+                </div>
+            @endif
+            @if(count($errors) > 0)
+                <div class="alert alert-danger">
+                    @foreach($errors as $err)
+                        {{$err}}
+                    @endforeach
+                </div>
+            @endif
             <div class="pull-left">
                 <h6 class="inner-title">Đăng kí</h6>
             </div>
             <div class="pull-right">
                 <div class="beta-breadcrumb">
-                    <a href="index.html">Home</a> / <span>Đăng kí</span>
+                    <a href="/">Home</a> / <span>Đăng kí</span>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -17,7 +29,8 @@
     <div class="container">
         <div id="content">
 
-            <form action="#" method="post" class="beta-form-checkout">
+            <form action="signup" method="post" class="beta-form-checkout">
+                <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <div class="row">
                     <div class="col-sm-3"></div>
                     <div class="col-sm-6">
@@ -27,31 +40,31 @@
 
                         <div class="form-block">
                             <label for="email">Email address*</label>
-                            <input type="email" id="email" required>
+                            <input type="email" name="email" id="email" required>
                         </div>
 
                         <div class="form-block">
-                            <label for="your_last_name">Fullname*</label>
-                            <input type="text" id="your_last_name" required>
+                            <label for="your_last_name">Full name*</label>
+                            <input type="text" name="full_name" id="your_last_name" required>
                         </div>
 
                         <div class="form-block">
                             <label for="adress">Address*</label>
-                            <input type="text" id="adress" value="Street Address" required>
+                            <input type="text" id="adress" name="address" value="Street Address" required>
                         </div>
 
 
                         <div class="form-block">
                             <label for="phone">Phone*</label>
-                            <input type="text" id="phone" required>
+                            <input type="text" id="phone" name="phone" required>
                         </div>
                         <div class="form-block">
                             <label for="phone">Password*</label>
-                            <input type="text" id="phone" required>
+                            <input type="password" id="phone" name="password" required>
                         </div>
                         <div class="form-block">
-                            <label for="phone">Re password*</label>
-                            <input type="text" id="phone" required>
+                            <label for="phone">Password Again*</label>
+                            <input type="password" id="phone" name="passwordAgain" required>
                         </div>
                         <div class="form-block">
                             <button type="submit" class="btn btn-primary">Register</button>
@@ -65,12 +78,12 @@
 @endsection
 @section('script')
     <script type="text/javascript">
-        $(function() {
+        $(function () {
             // this will get the full URL at the address bar
             var url = window.location.href;
 
             // passes on every "a" tag
-            $(".main-menu a").each(function() {
+            $(".main-menu a").each(function () {
                 // checks if its the same on the address bar
                 if (url == (this.href)) {
                     $(this).closest("li").addClass("active");
@@ -82,7 +95,7 @@
 
     </script>
     <script>
-        jQuery(document).ready(function($) {
+        jQuery(document).ready(function ($) {
             'use strict';
 
 // color box
@@ -92,7 +105,7 @@
                 left: '-213px'
             });
 
-            jQuery('#style-selector a.close').click(function(e){
+            jQuery('#style-selector a.close').click(function (e) {
                 e.preventDefault();
                 var div = jQuery('#style-selector');
                 if (div.css('left') === '-213px') {

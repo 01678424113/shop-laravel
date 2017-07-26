@@ -2,6 +2,18 @@
 @section('content')
     <div class="inner-header">
         <div class="container">
+            @if(session('thongbao'))
+                <div class="alert alert-success">
+                    {{session('thongbao')}}
+                </div>
+            @endif
+            @if(count($errors) > 0)
+                <div class="alert alert-danger">
+                    @foreach($errors as $err)
+                        {{$err}}
+                    @endforeach
+                </div>
+            @endif
             <div class="pull-left">
                 <h6 class="inner-title">Đăng nhập</h6>
             </div>
@@ -17,7 +29,8 @@
     <div class="container">
         <div id="content">
 
-            <form action="#" method="post" class="beta-form-checkout">
+            <form action="login" method="post" class="beta-form-checkout">
+                <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <div class="row">
                     <div class="col-sm-3"></div>
                     <div class="col-sm-6">
@@ -27,11 +40,11 @@
 
                         <div class="form-block">
                             <label for="email">Email address*</label>
-                            <input type="email" id="email" required>
+                            <input type="email" name="email" id="email" required>
                         </div>
                         <div class="form-block">
                             <label for="phone">Password*</label>
-                            <input type="text" id="phone" required>
+                            <input type="password" name="password" id="phone" required>
                         </div>
                         <div class="form-block">
                             <button type="submit" class="btn btn-primary">Login</button>
