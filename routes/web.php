@@ -11,6 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/','PageController@getHome');
+
+Route::get('signup','PageController@getSignup');
+Route::get('login','PageController@getLogin');
+
+Route::get('contact','PageController@getContact');
+
+Route::get('about','PageController@getAbout');
+
+Route::get('checkout','PageController@getCheckout');
+
+Route::get('pricing','PageController@getPricing');
+
+Route::get('product/{id}','PageController@getProduct');
+
+Route::get('product-type/{id}','PageController@getTypeProduct');
+
+Route::get('shopping','PageController@getShopping');
