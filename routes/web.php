@@ -36,3 +36,5 @@ Route::get('product-type/{id}','PageController@getTypeProduct');
 Route::get('shopping','PageController@getShopping');
 
 Route::get('session-cart/{id}','PageController@getSession');
+Route::get('delete/{id}','PageController@delete')->name('delete');
+Route::get('deleteAll/{id}','PageController@deleteAll')->name('deleteAll');

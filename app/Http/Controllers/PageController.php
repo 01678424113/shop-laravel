@@ -132,9 +132,30 @@ class PageController extends Controller
     public function getSession($id)
     {
         $product = Product::find($id);
-        $oldCard = Session('cart')?Session::get('cart'):null;
-        $cart = new Cart($oldCard);
+        $oldCart = Session::has('cart')?Session::get('cart'):null;
+        $cart = new Cart($oldCart);
         $cart->add($product, $id);
+        session()->put('cart',$cart);
+
+        return redirect()->back();
+    }
+
+    public function delete($id)
+    {
+        $product = Product::find($id);
+        $oldCart = Session::has('cart')?Session::get('cart'):null;
+        $cart = new Cart($oldCart);
+        $cart->reduceByOne($id);
+        session()->put('cart',$cart);
+
+        return redirect()->back();
+    }
+    public function deleteAll($id)
+    {
+        $product = Product::find($id);
+        $oldCart = Session::has('cart')?Session::get('cart'):null;
+        $cart = new Cart($oldCart);
+        $cart->removeItem($id);
         session()->put('cart',$cart);
 
         return redirect()->back();

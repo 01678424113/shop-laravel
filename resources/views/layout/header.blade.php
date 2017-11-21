@@ -37,25 +37,29 @@
 
                 <div class="beta-comp">
                     <div class="cart">
-                        <div class="beta-select"><i class="fa fa-shopping-cart"></i> Giỏ hàng (Trống) <i
+                        <div class="beta-select"><i class="fa fa-shopping-cart"></i> Giỏ hàng : @if(!empty($cart->totalQty)){{$cart->totalQty}}@endif <i
                                     class="fa fa-chevron-down"></i></div>
+
                         @if(Session::has('cart'))
-                            <?php var_dump($cart); ?>
                             <div class="beta-dropdown cart-body">
+                                @foreach($cart->items as $sanPhamCungLoai)
                                 <div class="cart-item">
                                     <div class="media">
-                                        <a class="pull-left" href="#"><img src="image/product/cart/1.png"
+                                        <a class="pull-left" href="#"><img src="image/product/{{$sanPhamCungLoai['item']->image}}"
                                                                            alt=""></a>
                                         <div class="media-body">
-                                            <span class="cart-item-title">Sample Woman Top</span>
-                                            <span class="cart-item-options">Size: XS; Colar: Navy</span>
-                                            <span class="cart-item-amount">1*<span>$49.50</span></span>
+                                            <span class="cart-item-title">{{$sanPhamCungLoai['item']->name}}</span>
+                                            <span class="cart-item-amount">{{$sanPhamCungLoai['qty']}}*<span>{{$sanPhamCungLoai['item']->unit_price}}</span></span>
                                         </div>
                                     </div>
+                                    <a href="{{route('delete',$sanPhamCungLoai['item']->id)}}" class="btn btn-info">Delete</a>
+                                    <a href="{{route('deleteAll',$sanPhamCungLoai['item']->id)}}" class="btn btn-info">Delete All</a>
                                 </div>
+                                @endforeach
                                 <div class="cart-caption">
+
                                     <div class="cart-total text-right">Tổng tiền: <span
-                                                class="cart-total-value">$34.55</span></div>
+                                                class="cart-total-value">{{$cart->totalPrice}}</span></div>
                                     <div class="clearfix"></div>
 
                                     <div class="center">
